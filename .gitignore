@@ -1,0 +1,11 @@
+# Build output
+/build/
+/snake
+
+# Editor/OS
+.DS_Store
+*.swp
+*.swo
+
+# CMake
+CMakeUserPresets.json

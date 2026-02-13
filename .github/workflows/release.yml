@@ -3,6 +3,8 @@ name: Build Release Packages
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
     tags:
       - "v*"
 
@@ -62,8 +64,47 @@ jobs:
           name: snake-${{ runner.os }}
           path: ${{ matrix.cpack_pattern }}
 
-      - name: Publish to GitHub release
-        if: startsWith(github.ref, 'refs/tags/')
+  release-tag:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: package
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download package artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          pattern: snake-*
+          merge-multiple: true
+
+      - name: Publish tagged release
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ matrix.cpack_pattern }}
+          files: dist/*
+          overwrite_files: true
+          generate_release_notes: true
+
+  release-main:
+    if: github.ref == 'refs/heads/main'
+    needs: package
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download package artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          pattern: snake-*
+          merge-multiple: true
+
+      - name: Publish latest pre-release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest-main
+          target_commitish: ${{ github.sha }}
+          name: Latest main build
+          prerelease: true
+          make_latest: false
+          files: dist/*
+          overwrite_files: true
+          generate_release_notes: true

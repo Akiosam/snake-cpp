@@ -1,7 +1,8 @@
 # Build output
 /build/
 /snake
-
+AGENTS.md
+PLAN.md
 # Editor/OS
 .DS_Store
 *.swp

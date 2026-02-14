@@ -6,7 +6,7 @@ Qt Widgets snake game with clean logic boundaries.
 
 ## For players
 
-Users do not need CMake or a compiler.
+Users do not need CMake or a compiler unles they Choose so, Run the binaries from the download. If you choose to BUild follow directions below
 Download a package from GitHub Releases, unzip it, and run the app binary (`snake.exe` on Windows, `snake` on Linux).
 Use the pre-release named `Latest main build` for the newest automatic build.
 
